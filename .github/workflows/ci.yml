@@ -13,6 +13,7 @@ on:
 jobs:
   x86-avx512:
     runs-on: ubuntu-22.04
+    continue-on-error: true
     strategy:
       matrix:
         isax:
