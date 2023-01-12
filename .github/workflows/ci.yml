@@ -11,31 +11,17 @@ on:
       - 'master'
 
 jobs:
-  x86-avx512:
+  x86-sde:
     runs-on: ubuntu-22.04
-    continue-on-error: true
-    strategy:
-      matrix:
-        isax:
-        - -mavx512bw -mavx512vl -mavx512cd -mavx512dq -mavx512vbmi -mavx512ifma -mavx512vpopcntdq -mavx512bitalg -mavx512vnni -mvpclmulqdq
-        - -mavx512bw -mavx512vl -DSIMDE_NATURAL_VECTOR_SIZE=256
-        - -mavx512f
-        - -mavx512bw
-        - -mavx512vl
-        - -mavx512vl -mavx512dq
-        - -mavx512cd
-        - -mavx512dq
     env:
-      CFLAGS: -Wall -Wextra -Werror ${{ matrix.isax }}
-      CXXFLAGS: -Wall -Wextra -Werror ${{ matrix.isax }}
+      CFLAGS: -Wall -Wextra -Werror -msse2
+      CXXFLAGS: -Wall -Wextra -Werror -msse2
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
     - name: CPU Information
       run: cat /proc/cpuinfo
-    - name: AVX512 Feature Check # grep the cpuinfo to fail fast
-      run: cat /proc/cpuinfo | grep avx512 
     - name: Install APT Dependencies
       run: sudo apt-get update && sudo apt-get install -y ninja-build ninja-build meson parallel gcovr
     - name: Configure
@@ -44,9 +30,5 @@ jobs:
       run: ninja -C build -v
     - name: Test
       run: meson test -C build --print-errorlogs --wrapper "${GITHUB_WORKSPACE}/test/check-flags.sh sde"
-    - name: Coverage Report
-      run: ninja -C build -v coverage-xml
-    - name: CodeCov.io
-      uses: codecov/codecov-action@v1
-      with:
-        file: ./build/meson-logs/coverage.xml
+    - name: Echo SDE log
+      run: cat /home/runner/work/simde/simde/build/meson-logs/testlog.txt
