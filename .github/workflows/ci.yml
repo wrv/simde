@@ -30,5 +30,3 @@ jobs:
       run: ninja -C build -v
     - name: Test
       run: meson test -C build --print-errorlogs --wrapper "${GITHUB_WORKSPACE}/test/check-flags.sh sde"
-    - name: Echo SDE log
-      run: cat /home/runner/work/simde/simde/build/meson-logs/testlog.txt
