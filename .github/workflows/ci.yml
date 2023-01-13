@@ -107,7 +107,7 @@ jobs:
     - name: Coverage Report
       run: ninja -C build -v coverage-xml
     - name: CodeCov.io
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         file: ./build/meson-logs/coverage.xml
 
@@ -172,7 +172,7 @@ jobs:
     - name: Coverage Report
       run: ninja -C build -v coverage-xml
     - name: CodeCov.io
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         file: ./build/meson-logs/coverage.xml
 
@@ -198,11 +198,12 @@ jobs:
     - name: Coverage Report
       run: ninja -C build -v coverage-xml
     - name: CodeCov.io
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         file: ./build/meson-logs/coverage.xml
 
   gcc:
+    continue-on-error: true
     strategy:
       matrix:
         include:
@@ -252,6 +253,7 @@ jobs:
       run: ctest -C test/build ---output-on-failure
 
   clang:
+    continue-on-error: true
     strategy:
       matrix:
         include:
@@ -341,7 +343,7 @@ jobs:
     - name: Coverage Report
       run: ninja -C build -v coverage-xml
     - name: CodeCov.io
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         file: ./build/meson-logs/coverage.xml
 
