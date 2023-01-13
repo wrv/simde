@@ -255,13 +255,13 @@ jobs:
     - name: CPU Information
       run: cat /proc/cpuinfo
     - name: Install APT Dependencies
-      run: sudo add-apt-repository ppa:ubuntu-toolchain-r/test && sudo apt-get update && sudo apt-get -yq install ninja-build parallel "${CC}" "${CXX}"
+      run: sudo add-apt-repository ppa:ubuntu-toolchain-r/test && sudo apt-get update && sudo apt-get -yq install ninja-build meson parallel "${CC}" "${CXX}"
     - name: Configure
-      run: mkdir test/build && cd test/build && cmake -G Ninja ..
+      run: meson setup build
     - name: Build
-      run: ninja -C test/build -v
+      run: ninja -C build -v
     - name: Test
-      run: ctest -C test/build ---output-on-failure
+      run: ninja -C build -v test
 
   clang:
     strategy:
@@ -325,13 +325,13 @@ jobs:
     - name: CPU Information
       run: cat /proc/cpuinfo
     - name: Install APT Dependencies
-      run: sudo add-apt-repository ppa:ubuntu-toolchain-r/test && sudo apt-get update && sudo apt-get -yq install ninja-build parallel clang-${{ matrix.version }}
+      run: sudo add-apt-repository ppa:ubuntu-toolchain-r/test && sudo apt-get update && sudo apt-get -yq install ninja-build meson parallel clang-${{ matrix.version }}
     - name: Configure
-      run: mkdir test/build && cd test/build && cmake -G Ninja ..
+      run: meson setup build
     - name: Build
-      run: ninja -C test/build -v
+      run: ninja -C build -v
     - name: Test
-      run: ctest -C test/build ---output-on-failure
+      run: ninja -C build -v test
 
   macos:
     runs-on: macos-10.15
