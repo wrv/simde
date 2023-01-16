@@ -2,7 +2,7 @@ name: MSVC Arm
 on:
   push:
     branches:
-      - 'msvc-arm'
+      - 'workflow_fixes'
 
 jobs:
   msvc-arm64:
