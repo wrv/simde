@@ -247,7 +247,7 @@ simde_vst4_u8(uint8_t *ptr, simde_uint8x8x4_t val) {
   #if defined(SIMDE_ARM_NEON_A32V7_NATIVE)
     vst4_u8(ptr, val);
   #elif defined(SIMDE_WASM_SIMD128_NATIVE)
-    simde_uint16x8_private r0_, r1_;
+    simde_uint8x16_private r0_, r1_;
     simde_uint8x16_private ab_ = simde_uint8x16_to_private(simde_vcombine_u8(val.val[0], val.val[1]));
     simde_uint8x16_private cd_ = simde_uint8x16_to_private(simde_vcombine_u8(val.val[2], val.val[3]));
 
